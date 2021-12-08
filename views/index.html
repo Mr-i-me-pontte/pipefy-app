@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Pipefy Apps Client.js -->
+    <script src="https://d1ukdhoxof1oxs.cloudfront.net/pipefy-client.js"></script>
+    <script src="https://platform.staticpipefy.com/pipefy-app.js"></script>
+  
+  </head>
+  <body>
+    <script>
+      PipefyApp.initCall({
+        'card-tab': function(p, pipe) {
+          return {
+            icon: './images/icon-blue.svg',
+            title: 'Gerar Contrato HE',
+            buttons: [
+              {
+                text: 'Gerar',
+                callback: function(p) {
+                  p.card().then(function({ title }) {
+                    // 'https://apitcdev.pontte.com.br/Pipefy/v1/generate/he/contract'
+                    // https://apitcstaging.pontte.com.br/Pipefy/v1/generate/he/contract
+                    fetch('https://apitc.pontte.com.br/Pipefy/v1/generate/he/contract', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ cardId: title })
+                    })
+                      .then(res => res.json())
+                      .then(data => console.log(data))
+                      .catch(err => console.log(err));
+                  })
+                }
+              },
+            ]
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
